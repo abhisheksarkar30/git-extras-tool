@@ -1,6 +1,6 @@
 @echo off
 setlocal
-cd /d E:\THAGMO\GIT_IGV_THAI\istar-gv\devel
+cd /d %CODEBASE%
 set /P sw=Enter r:replace with current zip only: 
 if not "%sw%"=="r" (call build clean install -Dmaven.test.skip -Dall -Drest -Ddeployments=gv-th)
 if exist gv-deployments\gv-dist\target\igv-console.zip (
@@ -22,7 +22,7 @@ if exist %vbs% del /f /q %vbs%
 cscript //nologo %vbs%
 if exist %vbs% del /f /q %vbs%
 )
-cd /d E:\THAGMO\GIT_IGV_THAI\istar-gv\devel
+cd /d %CODEBASE%
 if exist gv-deployments\gv-dist\target\igv-console (
 rd /s/q E:\igv-console-backup
 move E:\igv-console E:\igv-console-backup

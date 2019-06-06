@@ -1,5 +1,5 @@
 setlocal
-cd /d E:\THAGMO\GIT_IGV_THAI\istar-gv\devel
+cd /d %CODEBASE%
 set /P sw=Enter r:replace with current war only: 
 if not "%sw%"=="r" (call build clean install -Dmaven.test.skip -Dall -Drest -Ddeployments=gv-th)
 if exist gv-deployments\gv-dist\target\igv-tomcat.war (
