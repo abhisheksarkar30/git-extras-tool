@@ -1,4 +1,6 @@
 @echo off
+set JAVA_HOME=C:\Program Files\Java\jdk1.6.0_23
+setlocal
 set /P sw=Enter r:replace with current jar only: 
 if not "%sw%"=="r" (call mvn clean install -Dmaven.test.skip)
 set /a count=0
