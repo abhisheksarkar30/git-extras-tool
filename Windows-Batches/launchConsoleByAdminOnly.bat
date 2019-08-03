@@ -31,16 +31,9 @@ xcopy gv-deployments\gv-dist\target\igv-console E:\igv-console /E/S
 copy C:\Users\abhisheksa\Desktop\Batch-Files\Console.bat E:\igv-console
 del E:\igv-console\CONSOLE-INF\classes\log4j.properties
 copy "C:\Users\abhisheksa\Desktop\Batch-Files\Exchange-Files\log4j-debug.properties" E:\igv-console\CONSOLE-INF\classes\log4j.properties
-del E:\igv-console\CONSOLE-INF\classes\META-INF\spring\GMO-jdbc.properties
-copy C:\Users\abhisheksa\Desktop\Batch-Files\Exchange-Files\GMO-jdbc-dev.properties E:\igv-console\CONSOLE-INF\classes\META-INF\spring\GMO-jdbc.properties
+del E:\igv-console\CONSOLE-INF\classes\META-INF\spring\OPM-jdbc.properties
+copy C:\Users\abhisheksa\Desktop\Batch-Files\Exchange-Files\OPM-jdbc-dev.properties E:\igv-console\CONSOLE-INF\classes\META-INF\spring\OPM-jdbc.properties
 del E:\igv-console\CONSOLE-INF\classes\META-INF\spring\xenos-jdbc.properties
 copy C:\Users\abhisheksa\Desktop\Batch-Files\Exchange-Files\xenos-jdbc-dev.properties E:\igv-console\CONSOLE-INF\classes\META-INF\spring\xenos-jdbc.properties
-)
-if exist E:\igv-console (
-echo Start service? Hit enter
-pause
-echo start cmd -new_console /k E:\igv-console\launch ServiceController
-echo timeout 5 > NUL
-echo start cmd -new_console /k E:\igv-console\launch REF/StartReportRunner
 )
 pause
