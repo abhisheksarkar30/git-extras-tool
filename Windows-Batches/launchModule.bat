@@ -14,7 +14,5 @@ del %CATALINA_HOME%\webapps\igv-rest\WEB-INF\lib\%fname%
 copy target\%fname% %CATALINA_HOME%\webapps\igv-rest\WEB-INF\lib
 del E:\igv-console\CONSOLE-INF\lib\%fname%
 copy target\%fname% E:\igv-console\CONSOLE-INF\lib
-pause
 ) else ( echo Destination doesn't exist!)
 ) else ( echo War file doesn't exist!)
-pause
