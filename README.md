@@ -1,6 +1,7 @@
 # Gite
 
 Hi, git users!
+
 As we know **git** is already a powerful tool for version controlling. Yet, while we do our regular git activities, we feel sometimes that some features are ***good to have***  for many, if not for all, for convenience of work. **gite** brings you those features.
 
 
@@ -35,8 +36,10 @@ Following are the features currently available in the tool
 
 ### cdump
 We may require to have a backup of modifed/uncommitted files during your development to swap your current task or due to some other reason. This command will copy all those files and will dump to your specified location.
+
 *usage: gite cdump -c \<commit hash> [-p \<path>]*
 
 ### udump
 We may require to have a backup of committed files of a specific *commit hash* during your development. This command will copy all those files of the specified commit state of the repository and will dump to your specified location.
+
 *usage: gite udump [-p \<path>]*
