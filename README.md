@@ -4,7 +4,9 @@ Hi, git users!
 
 As we know **git** is already a powerful tool for version controlling. Yet, while we do our regular git activities, we feel sometimes that some features are ***good to have***  for many, if not for all, for convenience of work. **gite** brings you those features.
 
+## Prerequisites
 
+You should have a Python v3.0+ installed in your machine.
 
 ## Setup
 
