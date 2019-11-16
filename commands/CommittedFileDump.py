@@ -18,7 +18,13 @@ def copy_applicable_files(target_files, destination_dir):
         if file[0] in ('M', 'A'):
             file_name = base_dir + "/" + file[file.find("\t") + 1:]
             print(file_name)
-            Utils.copy(file_name, destination_dir)
+            if destination_dir[len(destination_dir)-1] in ('\\', '/'):
+                destination_dir = destination_dir[: len(destination_dir)-1]
+            # Create destination folder structure for each file to dump
+            local_destination_dir = destination_dir + "/" + file[file.find("\t") + 1: file.rfind("/")]
+            # Create destination dir if doesn't exist
+            Utils.create_dir(local_destination_dir)
+            Utils.copy(file_name, local_destination_dir)
 
 
 """
@@ -51,8 +57,6 @@ class Command(AbstractCommand):
         if args.p is not None:
             # If destination dir explicitly specified
             self.destination_dir = args.p
-        # Create destination dir if doesn't exist
-        Utils.create_dir(self.destination_dir)
         # Verifying specified commit id
         Utils.verify_commit(args.c)
         # Fetch file-names to copy

@@ -50,6 +50,9 @@ class Command(AbstractCommand):
             self.destination_dir = args.p
         # Create destination dir if doesn't exist
         Utils.create_dir(self.destination_dir)
+        Utils.execute_command("git config status.relativePaths false")
+        Utils.execute_command("git status -s > " + self.destination_dir + "/git-status.txt")
+        Utils.execute_command("git config status.relativePaths true")
         # Fetch file-names to copy
         target_files = Utils.execute_command("git status -s").split("\n")
         # Copy all applicable files
