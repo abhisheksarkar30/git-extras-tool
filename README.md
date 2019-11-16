@@ -49,11 +49,11 @@ We may require to have a backup of committed files of a specific *commit hash* d
 ### fhdump
 We may require to have a backup of entire history of a particular file. This command will copy all those versions of the specified file of the repository and will dump to your specified location.
 
-*usage: gite fhdump [-p \<path>]*
+*usage: gite fhdump -f \<file-path> [-p \<path>]*
 
 
 ### hddump
 We may require to have consecutive file change/diff dump of a particular file. This command will fetch all the consecutive change history/diff of the specified file of the repository and will dump to your specified location.
 
-*usage: gite hddump [-p \<path>]*
+*usage: gite hddump -f \<file-path> [-p \<path>]*
 
