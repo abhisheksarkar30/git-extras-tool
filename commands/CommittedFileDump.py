@@ -61,6 +61,8 @@ class Command(AbstractCommand):
         Utils.verify_commit(args.c)
         # Fetch file-names to copy
         target_files = Utils.execute_command("git diff-tree --no-commit-id --name-status -r " + args.c).split("\n")
+        # Stash tracked-uncommitted files to checkout with ease, to be restored at the end.
+        print(Utils.execute_command("git stash"))
         # Checking out by commit id
         status = Utils.execute_command("git checkout " + args.c)
         print(status)
@@ -70,3 +72,5 @@ class Command(AbstractCommand):
         copy_applicable_files(target_files, self.destination_dir)
         # Checking out to the previous branch
         print(Utils.execute_command("git checkout -"))
+        # Pop out last stashed index to restore to original state
+        print(Utils.execute_command("git stash pop"))
