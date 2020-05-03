@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Check if params are enough to go ahead.
+BASEDIR=$(dirname "$0")
+py "$BASEDIR"/gite.py "$@"
