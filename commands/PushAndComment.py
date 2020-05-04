@@ -50,7 +50,8 @@ class Command(AbstractCommand):
             print("Push failed")
             return
         for commit in commit_list:
-            print(commit)
+            print("\n" + commit)
+            base_comment += commit + "\n"
             first_space_index = commit.find(" ")
             second_space_index = commit.find(" ", first_space_index + 1)
             commit_id = commit[first_space_index + 1: second_space_index]
@@ -59,8 +60,8 @@ class Command(AbstractCommand):
                 continue
             jira_id = commit_msg[: commit_msg.find(":")].strip()
             jira_url = jira_base + "rest/api/2/issue/" + jira_id + "/comment"
-            comment = (base_comment + Utils.execute_command("git diff-tree --name-only -r " + commit_id))\
-                .replace('\n', '\\n')
+            comment = (base_comment + Utils.execute_command("git diff-tree --no-commit-id --name-status -r " +
+                        commit_id)).replace('\n', '\\n').replace('\t', '\\t')
             # Form the jira comment message
             jira_command = "curl -u " + jira_cred + " -X POST --data \"{\\\"body\\\": \\\"" + comment + \
                            "\\\"}\" -H \"Content-Type: application/json\" " + jira_url
