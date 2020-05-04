@@ -42,7 +42,6 @@ class Command(AbstractCommand):
         base_comment = "==============Automated Comment==============\n"
         base_comment += "Repository : " + Utils.execute_command("git config --get remote.origin.url") + "\n"
         base_comment += "Branch : " + Utils.execute_command("git branch --show-current") + "\n"
-        base_comment += "Commit Details :\n"
         result = Utils.execute_command("git push" if len(sys.argv) == 1 else "git push -f")
         print(result)
         # Checking for successful push to remote
@@ -51,7 +50,7 @@ class Command(AbstractCommand):
             return
         for commit in commit_list:
             print("\n" + commit)
-            base_comment += commit + "\n"
+            comment = base_comment + "Commit Details :\n" + commit + "\n" + "Related files :\n"
             first_space_index = commit.find(" ")
             second_space_index = commit.find(" ", first_space_index + 1)
             commit_id = commit[first_space_index + 1: second_space_index]
@@ -60,7 +59,7 @@ class Command(AbstractCommand):
                 continue
             jira_id = commit_msg[: commit_msg.find(":")].strip()
             jira_url = jira_base + "rest/api/2/issue/" + jira_id + "/comment"
-            comment = (base_comment + Utils.execute_command("git diff-tree --no-commit-id --name-status -r " +
+            comment = (comment + Utils.execute_command("git diff-tree --no-commit-id --name-status -r " +
                         commit_id)).replace('\n', '\\n').replace('\t', '\\t')
             # Form the jira comment message
             jira_command = "curl -u " + jira_cred + " -X POST --data \"{\\\"body\\\": \\\"" + comment + \
