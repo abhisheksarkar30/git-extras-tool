@@ -49,8 +49,14 @@ class Command(AbstractCommand):
             if commit_msg.find("fatal") != -1:
                 print(commit_msg)
                 continue
+            if commit_msg.find(":") == -1:
+                print("No jira issue id mentioned")
+                continue
             comment = base_comment + "Commit Details :\n" + commit_id + " " + commit_msg + "\n" + "Related files :\n"
             jira_id = commit_msg[: commit_msg.find(":")].strip()
+            if jira_id.find("-") == -1:
+                print("No jira issue id mentioned")
+                continue
             jira_url = jira_base + "rest/api/2/issue/" + jira_id + "/comment"
             comment = (comment + Utils.execute_command("git diff-tree --no-commit-id --name-status -r " +
                         commit_id)).replace('\n', '\\n').replace('\t', '\\t')
