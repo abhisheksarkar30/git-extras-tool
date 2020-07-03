@@ -8,7 +8,7 @@ from AbstractModule import AbstractCommand
 """
 
 
-def copy_applicable_files(target_files, destination_dir):
+def copy_applicable_files(target_files, destination_dir, structure):
     for file in target_files:
         # Copying  only added or modified files
         if file[1] in ('?', 'M'):
@@ -16,7 +16,16 @@ def copy_applicable_files(target_files, destination_dir):
             file_start = 0 if file_start == -1 else file_start
             file_name = file[file_start + 3:].strip('"')
             print(file_name)
-            Utils.copy(file_name, destination_dir)
+            if structure is False:
+                if destination_dir[len(destination_dir)-1] in ('\\', '/'):
+                    destination_dir = destination_dir[: len(destination_dir)-1]
+                # Create destination folder structure for each file to dump
+                local_destination_dir = destination_dir + "/" + file_name[: file_name.rfind("/")]
+                # Create destination dir if doesn't exist
+                Utils.create_dir(local_destination_dir)
+            else:
+                local_destination_dir = destination_dir
+            Utils.copy(file_name, local_destination_dir)
 
 
 """
@@ -42,6 +51,7 @@ class Command(AbstractCommand):
     def add_options(self, parser):
         # Add applicable arguments and parse
         parser.add_argument("-p", help="Dump directory location")
+        parser.add_argument("-s", help="File hierarchy structure not required", action='store_true')
 
     # Entry to command execution
     def main(self, args):
@@ -56,4 +66,4 @@ class Command(AbstractCommand):
         # Fetch file-names to copy
         target_files = Utils.execute_command("git status -s").split("\n")
         # Copy all applicable files
-        copy_applicable_files(target_files, self.destination_dir)
+        copy_applicable_files(target_files, self.destination_dir, args.s)
