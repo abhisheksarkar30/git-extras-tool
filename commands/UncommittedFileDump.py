@@ -9,6 +9,8 @@ from AbstractModule import AbstractCommand
 
 
 def copy_applicable_files(target_files, destination_dir, structure):
+    # Get repository base directory path
+    base_dir = Utils.execute_command("git rev-parse --show-toplevel")
     for file in target_files:
         # Copying  only added or modified files
         if file[1] in ('?', 'M'):
@@ -25,6 +27,7 @@ def copy_applicable_files(target_files, destination_dir, structure):
                 Utils.create_dir(local_destination_dir)
             else:
                 local_destination_dir = destination_dir
+            file_name = base_dir + "/" + file_name
             Utils.copy(file_name, local_destination_dir)
 
 
@@ -62,8 +65,8 @@ class Command(AbstractCommand):
         Utils.create_dir(self.destination_dir)
         Utils.execute_command("git config status.relativePaths false")
         Utils.execute_command("git status -s > " + self.destination_dir + "/git-status.txt")
-        Utils.execute_command("git config status.relativePaths true")
         # Fetch file-names to copy
         target_files = Utils.execute_command("git status -s").split("\n")
+        Utils.execute_command("git config status.relativePaths true")
         # Copy all applicable files
         copy_applicable_files(target_files, self.destination_dir, args.s)
