@@ -2,8 +2,12 @@
 ![](https://img.shields.io/badge/Release-V1.0.0-blue.svg) ![](https://img.shields.io/badge/Build-Stable-green.svg) [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0) ![](https://img.shields.io/badge/By-Abhishek%20Sarkar-red.svg?style=social&logo=appveyor)
 
 ------------
+Let's connect 👨‍💻 and forge the future together.😁✌
 
+**Show your support a :star: is all this repo needs** :smile:
+<br><br>
 
+## Introduction
 Hi, git users!
 
 As we know **git** is already a powerful tool for version controlling. Yet, while we do our regular git activities, we feel sometimes that some features are ***good to have***  for many, if not for all, for convenience of work. **gite** brings you those features.
