@@ -44,7 +44,7 @@ class Command(AbstractCommand):
         base_comment += "Branch : " + Utils.execute_command("git branch --show-current") + "\n"
         for commit in commit_list:
             commit_id = commit.strip()
-            print("\n" + commit_id)
+            print("\nCommit ID : " + commit_id)
             commit_msg = Utils.execute_command("git show-branch --no-name " + commit_id)
             if commit_msg.find("fatal") != -1:
                 print(commit_msg)
@@ -52,17 +52,22 @@ class Command(AbstractCommand):
             if commit_msg.find(":") == -1:
                 print("No jira issue id mentioned")
                 continue
-            comment = base_comment + "Commit Details :\n" + commit_id + " " + commit_msg + "\n" + "Related files :\n"
+
             jira_id = commit_msg[: commit_msg.find(":")].strip()
             if jira_id.find("-") == -1:
                 print("No jira issue id mentioned")
                 continue
             jira_url = jira_base + "rest/api/2/issue/" + jira_id + "/comment"
-            comment = (comment + Utils.execute_command("git diff-tree --no-commit-id --name-status -r " +
-                        commit_id)).replace('\n', '\\n').replace('\t', '\\t')
-            # Form the jira comment message
-            jira_command = "curl -u " + jira_cred + " -X POST --data \"{\\\"body\\\": \\\"" + comment + \
-                           "\\\"}\" -H \"Content-Type: application/json\" " + jira_url
-            # print(jira_command)
-            # Fire REST call for submitting the comment
-            print(Utils.execute_command(jira_command))
+            file_list = list(Utils.execute_command("git diff-tree --no-commit-id --name-status -r "
+                                                   + commit_id).split("\n"))
+            chunk_list = list(Utils.divide_chunks(file_list, 50))
+
+            for chunk in chunk_list:
+                comment = base_comment + "Commit Details :\n" + commit_id + " " + commit_msg + "\n"
+                comment = (comment + "Related files :\n" + "\n".join(chunk)).replace('\n', '\\n').replace('\t', '\\t')
+                # Form the jira comment message
+                jira_command = "curl -u " + jira_cred + " -X POST --data \"{\\\"body\\\": \\\"" + comment + \
+                               "\\\"}\" -H \"Content-Type: application/json\" " + jira_url
+                # print(jira_command)
+                # Fire REST call for submitting the comment
+                print(Utils.execute_command(jira_command))

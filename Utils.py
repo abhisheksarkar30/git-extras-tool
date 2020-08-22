@@ -73,3 +73,9 @@ def file_reader(file_name):
 # Execute specified command in a subprocess
 def execute_command(command):
     return subprocess.getoutput(command)
+
+
+def divide_chunks(source_list, chunk_size):
+    # looping till end of list
+    for index in range(0, len(source_list), chunk_size):
+        yield source_list[index:index + chunk_size]

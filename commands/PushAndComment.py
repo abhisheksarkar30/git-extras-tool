@@ -50,7 +50,7 @@ class Command(AbstractCommand):
             return
         for commit in commit_list:
             print("\n" + commit)
-            comment = base_comment + "Commit Details :\n" + commit + "\n" + "Related files :\n"
+
             first_space_index = commit.find(" ")
             second_space_index = commit.find(" ", first_space_index + 1)
             commit_id = commit[first_space_index + 1: second_space_index]
@@ -63,11 +63,16 @@ class Command(AbstractCommand):
                 print("No jira issue id mentioned")
                 continue
             jira_url = jira_base + "rest/api/2/issue/" + jira_id + "/comment"
-            comment = (comment + Utils.execute_command("git diff-tree --no-commit-id --name-status -r " +
-                        commit_id)).replace('\n', '\\n').replace('\t', '\\t')
-            # Form the jira comment message
-            jira_command = "curl -u " + jira_cred + " -X POST --data \"{\\\"body\\\": \\\"" + comment + \
-                           "\\\"}\" -H \"Content-Type: application/json\" " + jira_url
-            # print(jira_command)
-            # Fire REST call for submitting the comment
-            print(Utils.execute_command(jira_command))
+            file_list = list(Utils.execute_command("git diff-tree --no-commit-id --name-status -r "
+                                                   + commit_id).split("\n"))
+            chunk_list = list(Utils.divide_chunks(file_list, 50))
+
+            for chunk in chunk_list:
+                comment = base_comment + "Commit Details :\n" + commit + "\n"
+                comment = (comment + "Related files :\n" + "\n".join(chunk)).replace('\n', '\\n').replace('\t', '\\t')
+                # Form the jira comment message
+                jira_command = "curl -u " + jira_cred + " -X POST --data \"{\\\"body\\\": \\\"" + comment + \
+                               "\\\"}\" -H \"Content-Type: application/json\" " + jira_url
+                # print(jira_command)
+                # Fire REST call for submitting the comment
+                print(Utils.execute_command(jira_command))
