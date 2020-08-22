@@ -80,3 +80,8 @@ We may require to have comments of commits to be logged in its respective JIRA i
 
 *usage: gite pushc [-f]*
 
+### bcompare
+We may require to check commit hash diff between a main branch and its feature branch so as to verify unmerged commits back to main, if any, be the 2nd branch is specified or not. If branch not specified to compare with, the feature/child branches should be named following the convention: *PARENT-BRANCH = ABC_MAIN, FEATURE-BRANCH = ABC_MAIN_ISSUE_007*
+
+*usage: gite bcompare -p \<parent-branch> [-t \<target-branch>]*
+
