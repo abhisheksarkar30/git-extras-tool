@@ -12,8 +12,8 @@ def copy_applicable_files(target_files, destination_dir, structure):
     # Get repository base directory path
     base_dir = Utils.execute_command("git rev-parse --show-toplevel")
     for file in target_files:
-        # Copying  only added or modified files
-        if file[1] in ('?', 'M'):
+        # Copying only added or modified files
+        if file[0: 2].strip() in ('?', 'M', 'A'):
             file_start = file.find('-> ')
             file_start = 0 if file_start == -1 else file_start
             file_name = file[file_start + 3:].strip('"')
