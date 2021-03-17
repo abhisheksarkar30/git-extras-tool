@@ -70,6 +70,7 @@ class Command(AbstractCommand):
             for chunk in chunk_list:
                 comment = base_comment + "Commit Details :\n" + commit + "\n"
                 comment = (comment + "Related files :\n" + "\n".join(chunk)).replace('\n', '\\n').replace('\t', '\\t')
+                comment = comment.replace("&", "and")
                 # Form the jira comment message
                 jira_command = "curl -u " + jira_cred + " -X POST --data \"{\\\"body\\\": \\\"" + comment + \
                                "\\\"}\" -H \"Content-Type: application/json\" " + jira_url
